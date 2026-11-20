@@ -1,0 +1,11 @@
+# dsh-schedule-panel bundle patch.
+# Host 半部单行：聚合 schedule 服务 + 连接鉴权 + 变更事件，经 webServer 暴露只读 API。
+# Client 半部由 package.json 的 dsh.client 声明进入浏览器模块图，无需在此登记。
+- insert:
+    - id: schedule-panel
+      name: 'dsh-schedule-panel'
+      # webServer：/schedule-panel/api/* 路由
+      # connection：authorizeIndex 鉴权 + createPeer（owner 身份调 Remote）
+      # typertGateway：invoke/stream 直呼 schedule 与 session 命名空间
+      # schedule：直接读服务对象（存在性探测与兜底）
+      inject: [webServer, connection, typertGateway, schedule]
